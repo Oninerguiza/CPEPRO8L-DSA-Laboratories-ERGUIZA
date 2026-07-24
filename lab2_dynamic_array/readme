@@ -1,0 +1,171 @@
+# Laboratory Activity No. 2
+## Dynamic Array Builder & Capacity Allocation
+
+**Course Code:** CPEPRO8L  
+**Course Title:** Data Structures and Algorithms  
+**Term:** First Semester, AY 2026–2027
+
+---
+
+# Student Information
+
+- **Name:** ERGUIZA, NIÑO ELIEZER
+- **Date Submitted:** JULY 30, 2026
+
+---
+
+# Objectives
+
+This laboratory aims to:
+
+1. Implement a custom dynamic array using Python's `ctypes` module.
+2. Understand how dynamic arrays manage memory through capacity expansion.
+3. Observe the resizing process and its effect on performance.
+4. Demonstrate constant-time (`O(1)`) index access in a dynamic array.
+
+---
+
+# Introduction
+
+Dynamic arrays are one of the most commonly used data structures in programming. Unlike static arrays, they automatically increase their storage capacity whenever the current capacity becomes full. This is achieved by allocating a larger block of contiguous memory, copying the existing elements into the new memory block, and replacing the old array.
+
+Languages such as Python (`list`) and C++ (`std::vector`) internally use this technique to efficiently manage growing collections of data. In this laboratory activity, a custom dynamic array was implemented from scratch using Python's `ctypes` module to better understand how memory allocation and resizing work behind the scenes.
+
+---
+
+# Project Structure
+
+```
+Lab2-Dynamic-Array/
+│
+├── lab2_dynamic_array.py
+├── README.md
+└── screenshots/
+    └── output.png
+```
+
+---
+
+# Implementation
+
+The program implements the following methods:
+
+| Method | Description |
+|---------|-------------|
+| `__init__()` | Initializes the array with a capacity of 1. |
+| `__len__()` | Returns the current number of stored elements. |
+| `__getitem__()` | Retrieves an element using its index. |
+| `append()` | Adds a new element to the array and resizes when necessary. |
+| `_resize()` | Doubles the capacity and copies all existing elements. |
+| `_make_array()` | Allocates a new ctypes array with the specified capacity. |
+
+---
+
+# Algorithm
+
+1. Create an empty dynamic array.
+2. Set the initial capacity to **1**.
+3. Insert elements one at a time.
+4. Before every insertion:
+   - Check whether the array is already full.
+   - If full, allocate a new array with **double the current capacity**.
+   - Copy all existing elements into the new array.
+5. Store the new element.
+6. Increase the size counter.
+7. Repeat until all elements are inserted.
+
+---
+
+# Program Execution
+
+Example console output:
+
+```
+Appending 0 | Size: 1 | Capacity: 1 | Element at index 0: 0
+Resizing from 1 to 2
+Appending 1 | Size: 2 | Capacity: 2 | Element at index 1: 1
+Resizing from 2 to 4
+Appending 2 | Size: 3 | Capacity: 4 | Element at index 2: 2
+Appending 3 | Size: 4 | Capacity: 4 | Element at index 3: 3
+Resizing from 4 to 8
+Appending 4 | Size: 5 | Capacity: 8 | Element at index 4: 4
+Appending 5 | Size: 6 | Capacity: 8 | Element at index 5: 5
+Appending 6 | Size: 7 | Capacity: 8 | Element at index 6: 6
+Appending 7 | Size: 8 | Capacity: 8 | Element at index 7: 7
+Resizing from 8 to 16
+Appending 8 | Size: 9 | Capacity: 16 | Element at index 8: 8
+Appending 9 | Size: 10 | Capacity: 16 | Element at index 9: 9
+```
+
+---
+
+# Capacity Resize Trace
+
+| Current Size | Old Capacity | New Capacity |
+|--------------|-------------:|-------------:|
+| 2 | 1 | 2 |
+| 3 | 2 | 4 |
+| 5 | 4 | 8 |
+| 9 | 8 | 16 |
+
+---
+
+# Time Complexity Analysis
+
+| Operation | Complexity | Explanation |
+|-----------|-----------|-------------|
+| Index Access | **O(1)** | Direct access using memory indexing. |
+| Append (Normal) | **O(1)** | Element is inserted directly if space is available. |
+| Append (Resize) | **O(n)** | Existing elements must be copied into a larger array. |
+| Amortized Append | **O(1)** | Although resizing is expensive, it happens infrequently, making the average insertion constant time. |
+
+---
+
+# Analysis Questions
+
+## 1. At what sizes did the array resize?
+
+The array resized whenever the current size became equal to its capacity before inserting a new element.
+
+The resize events occurred when inserting:
+
+| Inserted Element | Capacity Change |
+|-----------------:|----------------:|
+| 1 | 1 → 2 |
+| 2 | 2 → 4 |
+| 4 | 4 → 8 |
+| 8 | 8 → 16 |
+
+---
+
+## 2. Why does the array double its capacity?
+
+Doubling the capacity minimizes the number of memory reallocations. If the array increased by only one element at a time, every insertion after reaching capacity would require allocating a new array and copying all existing elements, making insertion inefficient. By doubling the capacity, resizing occurs much less frequently, resulting in an amortized insertion time of **O(1)**.
+
+---
+
+## 3. Why is indexing considered O(1)?
+
+Array elements are stored in contiguous memory locations. Since every element occupies a fixed-size memory slot, the address of any element can be computed directly using its index. Therefore, retrieving an element does not require searching through the array, resulting in constant-time access (**O(1)**).
+
+---
+
+## 4. What is the cost of resizing?
+
+Resizing requires allocating a new memory block and copying every existing element into it. If there are **n** elements, the copying process takes **O(n)** time. Although resizing is expensive, it occurs infrequently because the capacity doubles each time.
+
+---
+
+# Conclusion
+
+This laboratory demonstrated how dynamic arrays operate internally. By implementing a dynamic array using Python's `ctypes` module, it became clear that dynamic arrays achieve efficient memory management through capacity doubling. While resizing incurs an **O(n)** cost due to element copying, the overall append operation remains **O(1)** on average because resizing happens only occasionally. Additionally, array indexing remains **O(1)** because elements are stored in contiguous memory, allowing direct access through index calculations.
+
+---
+
+# Author
+
+**Name:** ERGUIZA, NIÑO ELIEZER 
+**Course:** CPEPRO8L – Data Structures and Algorithms  
+**Academic Year:** First Semester, AY 2026–2027
+````
+
