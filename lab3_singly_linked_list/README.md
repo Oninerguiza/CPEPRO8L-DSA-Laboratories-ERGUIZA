@@ -1,5 +1,5 @@
 # Laboratory Activity Report  
-## Linked List Implementation: Doubly Linked List & Circular Singly Linked List
+## Linked List Implementation: Singly Linked List CRUD Operations
 
 ---
 
@@ -7,7 +7,7 @@
 
 | Field | Details |
 |---|---|
-| Laboratory Title | Dynamic Array Builder & Capacity Allocation |
+| Laboratory Title | Singly Linked List CRUD Operations |
 | Course Code | CPEPRO8L |
 | Course Title | Data Structures and Algorithms Laboratory |
 | Student Name | Erguiza, Nino Eliezer |
@@ -20,11 +20,17 @@
 
 This laboratory activity aims to:
 
-1. Implement a **Doubly Linked List** using nodes with `next` and `prev` pointers.
-2. Implement a **Circular Singly Linked List** where the last node points back to the first node.
-3. Understand how different linked list structures manage node connections.
-4. Apply correct pointer manipulation during insertion and traversal operations.
-5. Verify that the completed implementations execute successfully without errors.
+1. Implement a **Singly Linked List** using Python.
+2. Understand how nodes store data and references to the next node.
+3. Perform basic linked list operations including:
+   - Insertion at the head.
+   - Insertion at the tail.
+   - Searching for a specific value.
+   - Deleting a node by value.
+   - Displaying all elements.
+4. Apply proper pointer manipulation during insertion and deletion operations.
+5. Trace pointer changes when deleting a middle node.
+6. Verify that the completed program executes successfully without errors.
 
 ---
 
@@ -32,37 +38,41 @@ This laboratory activity aims to:
 
 | File | Description |
 |---|---|
-| `linked_list.py` | Contains the implementation of the Doubly Linked List and Circular Singly Linked List classes, including node creation, insertion methods, and traversal functions. |
+| `singly_linked_list.py` | Contains the implementation of the Singly Linked List, including node creation, insertion, deletion, searching, and display functions. |
 
-### Key Design Details:
+## Key Design Details
 
-**Doubly Linked List:**
+### Singly Linked List
 
-- Each node contains two references:
-  - `next` pointer for forward traversal.
-  - `prev` pointer for backward traversal.
-- The head node maintains the beginning of the list.
-- Insertions update both forward and backward connections to preserve the structure.
+A Singly Linked List consists of nodes where each node contains:
+
+- `data` - stores the value of the node.
+- `next` - stores the reference to the next node.
+
+The `head` pointer stores the first node in the list.
+
+The final node points to `None`, indicating the end of the list.
 
 Example structure:
 
 ```
-None <-> Node <-> Node <-> None
+Head
+ |
+ v
+Node -> Node -> Node -> None
 ```
 
 ---
 
-**Circular Singly Linked List:**
+## Implemented Operations
 
-- Each node contains only a `next` pointer.
-- The last node does not point to `None`.
-- Instead, the final node points back to the head node, creating a circular connection.
-
-Example structure:
-
-```
-Node → Node → Node → (back to head)
-```
+| Method | Description |
+|---|---|
+| `insert_head()` | Inserts a new node at the beginning of the list. |
+| `insert_tail()` | Inserts a new node at the end of the list. |
+| `delete_value()` | Deletes a node containing the target value. |
+| `search()` | Searches for a specific value in the list. |
+| `display()` | Traverses and displays all nodes. |
 
 ---
 
@@ -73,138 +83,342 @@ Node → Node → Node → (back to head)
 ### Command:
 
 ```bash
-python linked_list.py
+python singly_linked_list.py
 ```
 
 ### Output:
 
 ```text
---- Testing Doubly Linked List ---
-None <-> 10 <-> 5 <-> None
-
---- Testing Circular Linked List ---
-100 -> 200 -> 300 -> (loops to 100)
+20 -> 10 -> 30 -> None
+20 -> 30 -> None
+Is 30 in list? True
 ```
 
-Program executed successfully with no syntax errors or runtime errors.
+The program executed successfully without syntax errors or runtime errors.
 
 ---
 
-## 4.2 Execution Analysis
+# 4.2 Execution Analysis
 
-### Doubly Linked List Output
+## Insertion Operation
 
-The program inserted values:
+The program executed the following commands:
+
+```python
+sll.insert_head(10)
+sll.insert_head(20)
+sll.insert_tail(30)
+```
+
+### Step 1: Insert 10 at Head
+
+Initial state:
 
 ```
-5 and 10
+None
 ```
 
-at the beginning of the list.
-
-Output:
+After creating the first node:
 
 ```
-None <-> 10 <-> 5 <-> None
+10 -> None
+```
+
+The head pointer now points to the node containing `10`.
+
+---
+
+### Step 2: Insert 20 at Head
+
+A new node containing `20` is created.
+
+Before updating head:
+
+```
+20 -> None
+
+10 -> None
+```
+
+The new node points to the current head:
+
+```
+20 -> 10 -> None
+```
+
+The head is updated:
+
+```
+Head
+ |
+ v
+20 -> 10 -> None
+```
+
+---
+
+### Step 3: Insert 30 at Tail
+
+The program traverses until the last node.
+
+Current list:
+
+```
+20 -> 10 -> None
+```
+
+The last node (`10`) points to the new node:
+
+```
+20 -> 10 -> 30 -> None
+```
+
+Final insertion output:
+
+```
+20 -> 10 -> 30 -> None
 ```
 
 This confirms that:
 
-- The new nodes were inserted correctly at the head.
-- The `next` pointer maintains forward connections.
-- The `prev` pointer maintains backward connections.
-- The list structure remains valid from both directions.
+- Head insertion correctly places nodes at the beginning.
+- Tail insertion correctly attaches a node at the end.
+- Node connections are maintained using the `next` pointer.
 
 ---
 
-### Circular Singly Linked List Output
+# Search Operation
 
-The program inserted values:
+The program searches for:
 
 ```
-100, 200, and 300
+30
 ```
 
-into the circular list.
+Initial list:
+
+```
+20 -> 10 -> 30 -> None
+```
+
+Traversal process:
+
+```
+Check 20
+20 != 30
+
+Check 10
+10 != 30
+
+Check 30
+30 == 30
+```
 
 Output:
 
 ```
-100 -> 200 -> 300 -> (loops to 100)
+Is 30 in list? True
 ```
 
-This confirms that:
-
-- Nodes were successfully added.
-- The final node correctly points back to the first node.
-- The circular structure was properly maintained.
-- Traversal stops after returning to the starting node.
+The search operation successfully traversed the list and located the target value.
 
 ---
 
-## 4.3 Screenshots
+# Deletion Operation
 
+The program deletes:
 
-![alt text](<Screenshot 2026-07-24 130256.png>)
+```
+10
+```
+
+Before deletion:
+
+```
+Head
+ |
+ v
+20 -> 10 -> 30 -> None
+```
+
+After deletion:
+
+```
+20 -> 30 -> None
+```
+
+The node containing `10` was removed successfully.
+
+---
+
+# 4.3 Screenshots
+
+![Console Output Screenshot](Screenshot.png)
 
 ---
 
 # 5. Report Analysis Questions
 
-## Q1: Complete the classes and verify they execute without compile or runtime errors.
+## Q1: Run the completed script and include console outputs showing insertion, search, and deletion.
 
-The Doubly Linked List and Circular Singly Linked List classes were successfully completed by implementing the required node structures, insertion methods, and traversal operations.
+The completed Singly Linked List program was executed successfully.
 
-The program was executed successfully without compile-time or runtime errors.
+The program demonstrated the following operations:
 
-The output verified that:
+### Insertion
 
-- The Doubly Linked List correctly handled node insertion and maintained both `next` and `prev` references.
-- The Circular Singly Linked List correctly connected the tail node back to the head node.
-- Both linked list implementations produced the expected output.
+Inserted values:
+
+```
+10, 20, and 30
+```
+
+Console output:
+
+```
+20 -> 10 -> 30 -> None
+```
+
+This verifies that:
+
+- The first node was created successfully.
+- The head insertion operation worked correctly.
+- The tail insertion operation correctly connected the last node.
 
 ---
 
-## Q2: Explain the termination condition in a loop traversal of a Circular Linked List to prevent infinite loops.
+### Search
 
-A Circular Linked List does not have a `None` value at the end because the final node points back to the first node.
+The program searched for:
 
-Because of this, using a normal traversal condition:
-
-```python
-while temp:
+```
+30
 ```
 
-would create an infinite loop since `temp` will never become `None`.
+Console output:
 
-Instead, traversal must stop when the current node reaches the starting node again.
-
-Example:
-
-```python
-temp = self.head
-
-while True:
-    print(temp.data)
-    temp = temp.next
-
-    if temp == self.head:
-        break
+```
+Is 30 in list? True
 ```
 
-The condition:
+The search method successfully traversed each node and returned `True` when the target value was found.
 
-```python
-temp == self.head
+---
+
+### Deletion
+
+The program deleted:
+
+```
+10
 ```
 
-serves as the stopping condition. Once traversal returns to the original starting node, the loop terminates.
+Before deletion:
 
-This ensures that:
+```
+20 -> 10 -> 30 -> None
+```
 
-- Every node is visited exactly once.
-- The circular connection is preserved.
-- Infinite traversal is avoided.
+After deletion:
+
+```
+20 -> 30 -> None
+```
+
+The result confirms that the target node was removed and the remaining nodes were correctly connected.
+
+---
+
+# Q2: Trace the pointers step-by-step when deleting the middle node.
+
+Target node:
+
+```
+10
+```
+
+Initial linked list:
+
+```
+Head
+ |
+ v
+20 -> 10 -> 30 -> None
+```
+
+The deletion function initializes:
+
+```python
+previous = self.head
+current = self.head.next
+```
+
+Pointer assignment:
+
+```
+previous
+   |
+   v
+  20
+   |
+   v
+ current
+   |
+   v
+  10
+   |
+   v
+  30 -> None
+```
+
+The program checks:
+
+```python
+current.data == target
+```
+
+Comparison:
+
+```
+10 == 10
+```
+
+The target node is found.
+
+Before changing the pointer:
+
+```
+20 -> 10 -> 30 -> None
+      ^
+      |
+   Delete this node
+```
+
+The pointer update executes:
+
+```python
+previous.next = current.next
+```
+
+Before:
+
+```
+20.next = 10
+```
+
+After:
+
+```
+20.next = 30
+```
+
+Updated structure:
+
+```
+20 -> 30 -> None
+```
+
+The node containing `10` is removed because no node points to it anymore.
 
 ---
 
@@ -212,31 +426,35 @@ This ensures that:
 
 | Operation | Time Complexity |
 |---|---|
-| Insert at Head (Doubly Linked List) | O(1) |
-| Display Forward (Doubly Linked List) | O(n) |
-| Insert at Tail (Circular Linked List) | O(n) |
-| Display Circular List | O(n) |
+| Insert at Head | O(1) |
+| Insert at Tail | O(n) |
+| Search | O(n) |
+| Delete by Value | O(n) |
+| Display | O(n) |
 
 ---
 
 # 7. Conclusion
 
-This laboratory activity successfully demonstrated the implementation and behavior of Doubly Linked Lists and Circular Singly Linked Lists.
+This laboratory activity successfully demonstrated the implementation of a Singly Linked List using Python.
 
-The completed programs showed how different linked list structures manage node connections using pointers. The Doubly Linked List demonstrated bidirectional traversal through `next` and `prev` references, while the Circular Singly Linked List demonstrated how a node can connect back to the beginning of the structure.
+The program showed how nodes are connected through references and how pointer manipulation is used to perform insertion, searching, and deletion operations.
 
-### Concepts Learned:
+## Concepts Learned:
 
-- How nodes are connected using pointers.
-- Differences between doubly linked and circular linked structures.
-- Proper pointer updating during insertion operations.
-- The importance of correct traversal termination conditions.
+- Creating nodes and linking them together.
+- Managing the head pointer.
+- Performing CRUD operations in a linked list.
+- Updating pointers during deletion.
+- Traversing nodes sequentially.
+- Understanding the time complexity of linked list operations.
 
-### Skills Developed:
+## Skills Developed:
 
-- Implementing linked list data structures from scratch.
+- Implementing data structures using Python.
 - Managing node references manually.
-- Debugging pointer-related logic errors.
-- Analyzing time complexity of linked list operations.
+- Debugging linked list operations.
+- Analyzing pointer behavior.
+- Understanding dynamic data structures.
 
-Understanding linked list structures is important because they provide flexible memory usage and efficient insertion operations compared to contiguous structures such as arrays. These concepts serve as a foundation for more advanced data structures and algorithms.
+A Singly Linked List provides flexible memory usage and efficient insertion and deletion compared to fixed-size structures. Understanding this structure provides a foundation for advanced data structures such as stacks, queues, trees, and graphs.
