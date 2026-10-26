@@ -1,0 +1,13 @@
+u,v,weight
+Gate,Admin,2
+Gate,Library,7
+Admin,Library,3
+Admin,Canteen,8
+Library,Canteen,2
+Library,Lab,5
+Canteen,Gym,3
+Lab,Gym,1
+Lab,Dorm,4
+Gym,Dorm,6
+Dorm,Chapel,2
+Annex,,
